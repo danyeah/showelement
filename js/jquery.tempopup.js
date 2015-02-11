@@ -40,6 +40,14 @@
  			);
  	}
 
+ 	function scrollPercentage(scroll) {
+ 		var d = getDocHeight(),
+        c = $(window).height();
+        scrollPercent = (scroll / (d-c)) * 100;
+
+		return scrollPercent;
+ 	}
+
  	$.extend(Plugin.prototype, {
  		init: function () {
  			var that = this;
@@ -55,7 +63,12 @@
 			//	this.createCookie(this.settings.cookieName, true, this.settings.cookieDuration);
 			//}
 			if ( this.settings.activation === 'scroll' ) {
-				this.scrollActivation(this.settings.scrollPosition);
+				if ( this.settings.scrollPosition === 'top' || this.settings.scrollPosition === '0' || this.settings.scrollPosition === '0%')  {
+					//Show the div immediately
+					that.showDiv();
+				} else {
+					this.scrollActivation(this.settings.scrollPosition);
+				}
 			}
 			$(this.element).on('click', this.settings.closeClassCss, function(e) {
 				that.hideDiv();
@@ -87,6 +100,7 @@
 		},
 		scrollActivation: function(position) {
 			var that = this;
+
 			window.animFrame = (function(){
 				return window.requestAnimationFrame||
 				window.webkitRequestAnimationFrame ||
@@ -98,18 +112,28 @@
 			var scrollTimeout;
 			$(window).scroll(function () {
 				if (scrollTimeout) {
-					// clear the timeout, if one is pending
 					clearTimeout(scrollTimeout);
 					scrollTimeout = null;
 				}
-				scrollTimeout = animFrame(myFunc, 150);
+				scrollTimeout = animFrame(scrollHandler, 150);
 			});
-			
-			function myFunc() {
-				if( $(window).scrollTop() + $(window).height() == getDocHeight() ) {
-					//console.log(that.element);
-					$(that.element).fadeIn('slow');
-					//this.showDiv();
+
+			function scrollHandler() {
+				var position = that.settings.scrollPosition;
+				console.log("scroll is " + $(window).scrollTop() );
+				switch (that.settings.scrollPosition) {
+					case '100%':
+					case 'bottom':
+					if( $(window).scrollTop() + $(window).height() == getDocHeight() ) {
+						that.showDiv();
+					}
+					break;
+					default:
+					if ( scrollPercentage( $(window).scrollTop() ) === position ) {
+						that.showDiv();
+					}
+					break;
+
 				}
 			}
 
