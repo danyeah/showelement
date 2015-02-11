@@ -13,7 +13,8 @@
  			scrollPosition: '100%', // || '60%' || false
  			animation: 'fade',
  			cookieName: 'tempopup',
- 			cookieDuration: 1 // value in days
+ 			cookieDuration: 1, // value in days
+ 			closeClassCss: '.popup-close'
  		};
 
 
@@ -41,6 +42,7 @@
 
  	$.extend(Plugin.prototype, {
  		init: function () {
+ 			var that = this;
 			// Place initialization logic here
 			// You already have access to the DOM element and
 			// the options via the instance, e.g. this.element
@@ -55,6 +57,9 @@
 			if ( this.settings.activation === 'scroll' ) {
 				this.scrollActivation(this.settings.scrollPosition);
 			}
+			$(this.element).on('click', this.settings.closeClassCss, function(e) {
+				that.hideDiv();
+			});
 			
 		},
 
@@ -110,7 +115,10 @@
 
 		},
 		showDiv: function() {
-			this.element.fadeIn('slow');
+			$(this.element).fadeIn('slow');
+		},
+		hideDiv: function() {
+			$(this.element).fadeOut('slow');
 		}
 	});
 
