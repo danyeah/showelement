@@ -9,16 +9,16 @@
 
  	var pluginName = "tempopup",
  	defaults = {
- 			activation: 'scroll', // or 'fade'
- 			scrollPosition: '100%', // || '60%' || false
+ 			activation: 'scroll', // 'fade'
+ 			scrollPosition: 100, //  60 || false
  			animation: 'fade',
- 			cookieName: 'tempopup',
+ 			cookieName: 'tempopupShown',
  			cookieDuration: 1, // value in days
- 			closeClassCss: '.popup-close'
+ 			closeIdCss: '.popup-close'
  		};
 
 
- 		function Plugin ( element, options ) {
+ 	function Plugin ( element, options ) {
  			this.element = element;
 		// jQuery has an extend method which merges the contents of two or
 		// more objects, storing the result in the first object. The first object
@@ -29,7 +29,6 @@
 		this._name = pluginName;
 		this.init();
 	}
- 	// Cookie functions http://www.quirksmode.org/js/cookies.html
 
  	function getDocHeight() {
  		var D = document;
@@ -44,7 +43,6 @@
  		var d = getDocHeight(),
         c = $(window).height();
         scrollPercent = (scroll / (d-c)) * 100;
-
 		return scrollPercent;
  	}
 
@@ -57,23 +55,29 @@
 			// and this.settings
 			// you can add more functions like the one below and
 			// call them like so: this.yourOtherFunction(this.element, this.settings).
-			//console.log(this.settings.cookieName);
 
-			//if ( this.readCookie(this.settings.cookieName) == false ) {
-			//	this.createCookie(this.settings.cookieName, true, this.settings.cookieDuration);
-			//}
-			if ( this.settings.activation === 'scroll' ) {
-				if ( this.settings.scrollPosition === 'top' || this.settings.scrollPosition === '0' || this.settings.scrollPosition === '0%')  {
-					//Show the div immediately
+			if ( this.readCookie(this.settings.cookieName) == null ) {
+				console.log("Start");
+				this.checkAnimation(this.settings.activation);
+			} else {
+				console.log("cookie value: "  + this.readCookie(this.settings.cookieName));
+			}
+
+			$(this.element).on('click', this.settings.closeClassCss, function(e) {
+				that.hideDiv();
+			});
+			
+		},
+		checkAnimation: function(animationType) {
+			if (  animationType === 'scroll' ) {
+				if ( this.settings.scrollPosition === 'top' || this.settings.scrollPosition === '0' || this.settings.scrollPosition === '0%' || this.settings.scrollPosition === 0 )  {
+					// if the scrollposition is set to 0
+					//show the div immediately
 					that.showDiv();
 				} else {
 					this.scrollActivation(this.settings.scrollPosition);
 				}
 			}
-			$(this.element).on('click', this.settings.closeClassCss, function(e) {
-				that.hideDiv();
-			});
-			
 		},
 
 		createCookie: function (name,value,days) {
@@ -84,6 +88,7 @@
 			}
 			else var expires = "";
 			document.cookie = name+"="+value+expires+"; path=/";
+			console.log("cookie created");
 		},
 		readCookie: function(name) {
 			var nameEQ = name + "=";
@@ -119,11 +124,9 @@
 			});
 
 			function scrollHandler() {
-				var position = that.settings.scrollPosition;
-				console.log("scroll is " + $(window).scrollTop() );
-				switch (that.settings.scrollPosition) {
-					case '100%':
-					case 'bottom':
+				console.log("beep");
+				switch (position) {
+					case 100:
 					if( $(window).scrollTop() + $(window).height() == getDocHeight() ) {
 						that.showDiv();
 					}
@@ -140,6 +143,11 @@
 		},
 		showDiv: function() {
 			$(this.element).fadeIn('slow');
+			$(window).off('scroll');
+			if ( this.readCookie(this.settings.cookieName) == null ) {
+				this.createCookie(this.settings.cookieName, true, this.settings.cookieDuration);
+			}
+			
 		},
 		hideDiv: function() {
 			$(this.element).fadeOut('slow');
