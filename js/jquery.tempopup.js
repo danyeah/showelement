@@ -14,7 +14,7 @@
  			animation: 'fade',
  			cookieName: 'tempopupShown',
  			cookieDuration: 1, // value in days
- 			closeIdCss: '.popup-close'
+ 			closeClassCss: '.popup-close'
  		};
 
 
@@ -57,10 +57,10 @@
 			// call them like so: this.yourOtherFunction(this.element, this.settings).
 
 			if ( this.readCookie(this.settings.cookieName) == null ) {
-				console.log("Start");
+				//console.log("Start");
 				this.checkAnimation(this.settings.activation);
 			} else {
-				console.log("cookie value: "  + this.readCookie(this.settings.cookieName));
+				//console.log("cookie value: "  + this.readCookie(this.settings.cookieName));
 			}
 
 			$(this.element).on('click', this.settings.closeClassCss, function(e) {
@@ -88,7 +88,6 @@
 			}
 			else var expires = "";
 			document.cookie = name+"="+value+expires+"; path=/";
-			console.log("cookie created");
 		},
 		readCookie: function(name) {
 			var nameEQ = name + "=";
@@ -124,7 +123,6 @@
 			});
 
 			function scrollHandler() {
-				console.log("beep");
 				switch (position) {
 					case 100:
 					if( $(window).scrollTop() + $(window).height() == getDocHeight() ) {
