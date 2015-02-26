@@ -63,8 +63,10 @@
 				//console.log("cookie value: "  + this.readCookie(this.settings.cookieName));
 			}
 
-			$(this.element).on('click', this.settings.closeClassCss, function(e) {
-				that.hideDiv();
+			$(this.settings.closeClassCss).on('click', function(e) {
+				if ( $(e.target).hasClass(that.settings.closeClassCss.slice(1)) ) {
+					that.hideDiv();
+				} 
 			});
 			
 		},
