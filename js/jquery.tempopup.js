@@ -18,7 +18,7 @@
  		};
 
 
- 	function Plugin ( element, options ) {
+ 		function Plugin ( element, options ) {
  			this.element = element;
 		// jQuery has an extend method which merges the contents of two or
 		// more objects, storing the result in the first object. The first object
@@ -30,25 +30,25 @@
 		this.init();
 	}
 
- 	function getDocHeight() {
- 		var D = document;
- 		return Math.max(
- 			D.body.scrollHeight, D.documentElement.scrollHeight,
- 			D.body.offsetHeight, D.documentElement.offsetHeight,
- 			D.body.clientHeight, D.documentElement.clientHeight
- 			);
- 	}
+	function getDocHeight() {
+		var D = document;
+		return Math.max(
+			D.body.scrollHeight, D.documentElement.scrollHeight,
+			D.body.offsetHeight, D.documentElement.offsetHeight,
+			D.body.clientHeight, D.documentElement.clientHeight
+			);
+	}
 
- 	function scrollPercentage(scroll) {
- 		var d = getDocHeight(),
-        c = $(window).height();
-        scrollPercent = (scroll / (d-c)) * 100;
+	function scrollPercentage(scroll) {
+		var d = getDocHeight(),
+		c = $(window).height();
+		scrollPercent = (scroll / (d-c)) * 100;
 		return scrollPercent;
- 	}
+	}
 
- 	$.extend(Plugin.prototype, {
- 		init: function () {
- 			var that = this;
+	$.extend(Plugin.prototype, {
+		init: function () {
+			var that = this;
 			// Place initialization logic here
 			// You already have access to the DOM element and
 			// the options via the instance, e.g. this.element
@@ -65,6 +65,7 @@
 
 			$(this.settings.closeClassCss).on('click', function(e) {
 				if ( $(e.target).hasClass(that.settings.closeClassCss.slice(1)) ) {
+					that.createCookie(that.settings.cookieName, true, that.settings.cookieDuration);
 					that.hideDiv();
 				} 
 			});
@@ -144,10 +145,7 @@
 		showDiv: function() {
 			$(this.element).fadeIn('slow');
 			$(window).off('scroll');
-			if ( this.readCookie(this.settings.cookieName) == null ) {
-				this.createCookie(this.settings.cookieName, true, this.settings.cookieDuration);
-			}
-			
+
 		},
 		hideDiv: function() {
 			$(this.element).fadeOut('slow');
