@@ -61,9 +61,8 @@
 				//console.log("Start");
 				this.checkAnimation(this.settings.activation);
 			} else {
-				console.log("cookie value: "  + this.readCookie(this.settings.cookieName));
+				//console.log("cookie value: "  + this.readCookie(this.settings.cookieName));
 			}
-
 			$(this.settings.closeClassCss).on('click', function(e) {
 				if ( $(e.target).hasClass(that.settings.closeClassCss) ) {
 					that.createCookie(that.settings.cookieName, true, that.settings.cookieDuration);
