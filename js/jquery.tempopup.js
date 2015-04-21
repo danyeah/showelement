@@ -1,5 +1,5 @@
 /* ===========================================================
- * jquery-tempopup.js v1
+ * jquery-tempopup.js v0.0.2
  * ===========================================================
  *
  * https://github.com/danielhq/tempoup
@@ -8,17 +8,18 @@
  ;(function ( $, window, document, undefined ) {
 
  	var pluginName = "tempopup",
- 	defaults = {
- 			activation: 'scroll', // 'fade'
- 			scrollPosition: 100, //  60 || false
- 			animation: 'fade',
+ 		defaults = {
+ 			activation: 'time', // 'scroll'
+ 			scrollPosition: 100, //  this works only if activation is 'scroll', the value equals %  of scroll in the document
+ 			timeActivation: 0, //  this works only  if activation is 'time'
  			cookieName: 'tempopupShown',
  			cookieDuration: 1, // value in days
- 			closeClassCss: '.popup-close'
+ 			closeClassCss: 'popup-close',
+ 			hideClass: 'popup--hidden'
  		};
 
 
- 		function Plugin ( element, options ) {
+ 	function Plugin ( element, options ) {
  			this.element = element;
 		// jQuery has an extend method which merges the contents of two or
 		// more objects, storing the result in the first object. The first object
@@ -60,26 +61,30 @@
 				//console.log("Start");
 				this.checkAnimation(this.settings.activation);
 			} else {
-				//console.log("cookie value: "  + this.readCookie(this.settings.cookieName));
+				console.log("cookie value: "  + this.readCookie(this.settings.cookieName));
 			}
 
 			$(this.settings.closeClassCss).on('click', function(e) {
-				if ( $(e.target).hasClass(that.settings.closeClassCss.slice(1)) ) {
+				if ( $(e.target).hasClass(that.settings.closeClassCss) ) {
 					that.createCookie(that.settings.cookieName, true, that.settings.cookieDuration);
 					that.hideDiv();
-				} 
+				}
 			});
-			
+
 		},
 		checkAnimation: function(animationType) {
 			if (  animationType === 'scroll' ) {
-				if ( this.settings.scrollPosition === 'top' || this.settings.scrollPosition === '0' || this.settings.scrollPosition === '0%' || this.settings.scrollPosition === 0 )  {
+				if ( this.settings.scrollPosition === 0 )  {
 					// if the scrollposition is set to 0
 					//show the div immediately
-					that.showDiv();
+					this.showDiv();
 				} else {
 					this.scrollActivation(this.settings.scrollPosition);
 				}
+			} else if (  animationType === 'time' ) {
+				// timed activation
+				this.timeActivation(this.settings.timeActivation);
+
 			}
 		},
 
@@ -105,6 +110,12 @@
 		eraseCookie: function(name) {
 			this.createCookie(name, "", -1);
 		},
+		timeActivation: function(time) {
+			var that = this;
+			setTimeout(function() {
+				that.showDiv()
+			}, time);
+		},
 		scrollActivation: function(position) {
 			var that = this;
 
@@ -113,7 +124,7 @@
 				window.webkitRequestAnimationFrame ||
 				window.mozRequestAnimationFrame    ||
 				function( callback ){
-					window.setTimeout(callback, 15);
+					window.setTimeout(callback, 150);
 				};
 			})();
 			var scrollTimeout;
@@ -143,12 +154,12 @@
 
 		},
 		showDiv: function() {
-			$(this.element).fadeIn('slow');
+			$(this.element).removeClass(this.settings.hideClass);
 			$(window).off('scroll');
 
 		},
 		hideDiv: function() {
-			$(this.element).fadeOut('slow');
+			$(this.element).addClass(this.settings.hideClass);
 		}
 	});
 
