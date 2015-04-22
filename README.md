@@ -1,9 +1,9 @@
-# Project Name
+# Tempopup
 
 Tempopup shows a popup based on scrollposition(todo) or time.
 You might want use it when  you need to show certain element after x seconds the user is on the page, or when he reaches 100% scroll position.
 
-## Installationdo
+## Installation
 
 1. Include jQuery.
 2. Include jquery.tempopup.js
@@ -22,8 +22,7 @@ You might want use it when  you need to show certain element after x seconds the
 | closeClassCss  | string | popup-close   | Class that triggers the close                                                                               |
 | hideClass      | string |               | Class that is applied on the div to hide it                                                                 |                                                         |
 
-## Contributing
-
+## Issues
 Found a bug? Found an issue? open a ticket!
 
 ## Contributing
@@ -41,4 +40,9 @@ Found a bug? Found an issue? open a ticket!
 
 ## License
 
-TODO: Write license
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
