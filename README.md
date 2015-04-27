@@ -20,7 +20,11 @@ You might want use it when  you need to show certain element after x seconds the
 | cookieName     | string | tempopupShown | Name of the cookie                                                                                          |
 | cookieDuration |   int  | 1             | Duration in days of the cookie                                                                              |
 | closeClassCss  | string | popup-close   | Class that triggers the close                                                                               |
-| hideClass      | string | popup--hidden | Class that is applied on the div to hide it                                                                 |                                                         |
+| hideClass      | string | popup--hidden | Class that is applied on the div to hide it
+                                                            |                                                         |
+## Events
+1. 'tempopup_closed' triggered when the popup is clsoed
+2. 'tempopup_open' triggered when the popup is opened
 
 ## Issues
 Found a bug? Found an issue? open a ticket!

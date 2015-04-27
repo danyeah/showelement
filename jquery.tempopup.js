@@ -1,5 +1,5 @@
 /* ===========================================================
- * jquery-tempopup.js v0.0.3
+ * jquery-tempopup.js v0.0.4
  * ===========================================================
  *
  * https://github.com/danielhq/tempoup
@@ -60,10 +60,8 @@
 			if ( this.readCookie(this.settings.cookieName) == null ) {
 				//console.log("Start");
 				this.checkAnimation(this.settings.activation);
-			} else {
-				//console.log("cookie value: "  + this.readCookie(this.settings.cookieName));
 			}
-			$(this.settings.closeClassCss).on('click', function(e) {
+			$("." + this.settings.closeClassCss).on('click', function(e) {
 				if ( $(e.target).hasClass(that.settings.closeClassCss) ) {
 					that.createCookie(that.settings.cookieName, true, that.settings.cookieDuration);
 					that.hideDiv();
@@ -154,10 +152,12 @@
 		},
 		showDiv: function() {
 			$(this.element).removeClass(this.settings.hideClass);
+			$(document).trigger("tempopup_open")
 			$(window).off('scroll');
 
 		},
 		hideDiv: function() {
+			$(document).trigger("tempopup_closed")
 			$(this.element).addClass(this.settings.hideClass);
 		}
 	});
